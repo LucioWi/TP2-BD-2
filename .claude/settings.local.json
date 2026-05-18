@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-ChildItem -Recurse \"C:\\\\Users\\\\Tomi\\\\IdeaProjects\\\\G12Fraudesito\")",
+      "Bash(Select-Object FullName)",
+      "PowerShell(Get-ChildItem -Recurse \"C:\\\\Users\\\\Tomi\\\\IdeaProjects\\\\G12Fraudesito\\\\src\\\\main\" | Where-Object { -not $_.PSIsContainer } | Select-Object -ExpandProperty FullName | Sort-Object)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\Tomi\\\\IdeaProjects\\\\G12Fraudesito\\\\src\" -Recurse -Filter \"*.java\")",
+      "PowerShell(New-Item *)"
+    ]
+  }
+}

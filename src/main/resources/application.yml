@@ -1,0 +1,58 @@
+spring:
+  application:
+    name: fraudesito
+
+  profiles:
+    active: dev
+
+  neo4j:
+    uri: bolt://localhost:7687
+    authentication:
+      username: neo4j
+      password: ${NEO4J_PASSWORD:password}
+
+  data:
+    neo4j:
+      database: neo4j
+
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    deserialization:
+      fail-on-unknown-properties: false
+    time-zone: UTC
+    default-property-inclusion: non_null
+
+server:
+  port: 8080
+  error:
+    include-message: always
+    include-binding-errors: always
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics
+  endpoint:
+    health:
+      show-details: when-authorized
+  info:
+    env:
+      enabled: true
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+    display-request-duration: true
+  show-actuator: false
+
+logging:
+  level:
+    com.batalla.fraudesito: DEBUG
+    org.springframework.data.neo4j: INFO
+    org.neo4j.driver: WARN
