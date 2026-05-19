@@ -52,7 +52,7 @@ public class DispositivoController {
                                 {
                                   "ipAddress": "200.49.130.10",
                                   "userAgent": "Mozilla/5.0 (Android 13; Mobile) Chrome/118.0",
-                                  "tipoDispositivo": "SMARTPHONE",
+                                  "tipoDispositivo": "MOVIL",
                                   "sistemaOperativo": "Android 13",
                                   "fingerprint": "a3f9b2c1d8e7f654a321b0c9d8e7f6a5"
                                 }
@@ -119,7 +119,7 @@ public class DispositivoController {
                             {
                               "ipAddress": "200.49.130.55",
                               "userAgent": "Mozilla/5.0 (Android 13; Mobile) Chrome/120.0",
-                              "tipoDispositivo": "SMARTPHONE",
+                              "tipoDispositivo": "MOVIL",
                               "sistemaOperativo": "Android 13",
                               "fingerprint": "a3f9b2c1d8e7f654a321b0c9d8e7f6a5"
                             }

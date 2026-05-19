@@ -47,7 +47,7 @@ public class CuentaController {
                                   "cbvu": "0720034888000078901234",
                                   "alias": "PATO.VERDE.SOL",
                                   "banco": "Banco Nación",
-                                  "tipoCuenta": "CAJA_AHORRO",
+                                  "tipoCuenta": "AHORRO",
                                   "saldo": "15000.00",
                                   "moneda": "ARS",
                                   "limiteTransferenciaDiaria": "100000.00"

@@ -1,5 +1,6 @@
 package com.batalla.fraudesito.dto.request;
 
+import com.batalla.fraudesito.domain.enums.TipoDocumento;
 import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Data;
@@ -18,8 +19,11 @@ public class PersonaRequestDto {
     @Size(min = 2, max = 100, message = "El apellido debe tener entre 2 y 100 caracteres")
     private String apellido;
 
-    @NotBlank(message = "El DNI es obligatorio")
-    @Pattern(regexp = "^[0-9]{7,8}$", message = "El DNI debe tener 7 u 8 dígitos numéricos")
+    @NotNull(message = "El tipo de documento es obligatorio")
+    private TipoDocumento tipoDocumento;
+
+    @NotBlank(message = "El número de documento es obligatorio")
+    @Pattern(regexp = "^[0-9]{7,8}$", message = "El documento debe tener 7 u 8 dígitos numéricos")
     private String dni;
 
     @Email(message = "El email debe ser válido")

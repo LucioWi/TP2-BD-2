@@ -5,5 +5,6 @@ public enum TipoDispositivo {
     COMPUTADORA,
     TABLET,
     ATM,
-    POS
+    POS,
+    OTRO
 }

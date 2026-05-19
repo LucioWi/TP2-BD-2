@@ -391,7 +391,7 @@ public class FraudeController {
                                 "cuentaId": "uuid-cuenta",
                                 "numeroCuenta": "0720034888000078901234",
                                 "banco": "Banco Nación",
-                                "tipoCuenta": "CAJA_AHORRO",
+                                "tipoCuenta": "AHORRO",
                                 "totalRecibidas": 15,
                                 "totalEnviadas": 14,
                                 "actividadTotal": 29,

@@ -58,7 +58,7 @@ public class PersonaServiceImpl implements PersonaService {
         Persona persona = Persona.builder()
                 .nombre(dto.getNombre())
                 .apellido(dto.getApellido())
-                .tipoDocumento(TipoDocumento.DNI)
+                .tipoDocumento(dto.getTipoDocumento())
                 .numeroDocumento(dto.getDni())
                 .email(dto.getEmail())
                 .telefono(dto.getTelefono())
@@ -110,6 +110,7 @@ public class PersonaServiceImpl implements PersonaService {
 
         persona.setNombre(dto.getNombre());
         persona.setApellido(dto.getApellido());
+        persona.setTipoDocumento(dto.getTipoDocumento());
         persona.setNumeroDocumento(dto.getDni());
         persona.setEmail(dto.getEmail());
         persona.setTelefono(dto.getTelefono());

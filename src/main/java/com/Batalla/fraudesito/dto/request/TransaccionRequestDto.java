@@ -32,6 +32,10 @@ public class TransaccionRequestDto {
 
     private String descripcion;
 
+    private String concepto;
+
+    private String userAgent;
+
     @DecimalMin(value = "-90.0", message = "La latitud debe ser >= -90")
     @DecimalMax(value = "90.0", message = "La latitud debe ser <= 90")
     private Double latitud;

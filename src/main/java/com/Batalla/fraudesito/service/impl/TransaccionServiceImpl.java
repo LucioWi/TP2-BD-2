@@ -67,6 +67,8 @@ public class TransaccionServiceImpl implements TransaccionService {
                 .tipo(dto.getTipo())
                 .canal(dto.getCanal())
                 .descripcion(dto.getDescripcion())
+                .concepto(dto.getConcepto())
+                .userAgent(dto.getUserAgent())
                 .ipAddress(dto.getIpAddress())
                 .latitud(dto.getLatitud())
                 .longitud(dto.getLongitud())

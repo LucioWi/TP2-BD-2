@@ -25,7 +25,6 @@ public class CuentaRequestDto {
     @NotNull(message = "El tipo de cuenta es obligatorio")
     private TipoCuenta tipoCuenta;
 
-    @NotBlank(message = "El saldo inicial es obligatorio")
     @Pattern(regexp = "^\\d+(\\.\\d{1,2})?$", message = "El saldo debe ser un número válido con máximo 2 decimales")
     private String saldo;
 

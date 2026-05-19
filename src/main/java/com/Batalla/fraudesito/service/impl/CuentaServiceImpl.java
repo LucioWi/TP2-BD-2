@@ -38,6 +38,9 @@ public class CuentaServiceImpl implements CuentaService {
 
     @Override
     public CuentaResponseDto crear(CuentaRequestDto dto) {
+        if (dto.getSaldo() == null || dto.getSaldo().isBlank()) {
+            throw new IllegalArgumentException("El saldo inicial es obligatorio para crear una cuenta");
+        }
         if (cuentaRepository.existsByNumeroCuenta(dto.getNumeroCuenta())) {
             throw new DuplicateResourceException("Cuenta", "numeroCuenta", dto.getNumeroCuenta());
         }
@@ -105,7 +108,9 @@ public class CuentaServiceImpl implements CuentaService {
         cuenta.setAlias(dto.getAlias());
         cuenta.setBanco(dto.getBanco());
         cuenta.setTipoCuenta(dto.getTipoCuenta());
-        cuenta.setSaldo(dto.getSaldo());
+        if (dto.getSaldo() != null && !dto.getSaldo().isBlank()) {
+            cuenta.setSaldo(dto.getSaldo());
+        }
         cuenta.setMoneda(dto.getMoneda());
         cuenta.setLimiteTransferenciaDiaria(dto.getLimiteTransferenciaDiaria());
         cuenta.setFechaActualizacion(LocalDateTime.now());
