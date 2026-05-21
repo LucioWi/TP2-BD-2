@@ -5,7 +5,6 @@ import com.batalla.fraudesito.domain.enums.TipoDocumento;
 import com.batalla.fraudesito.domain.relationship.PoseeCuenta;
 import com.batalla.fraudesito.domain.relationship.UsaDispositivo;
 import lombok.*;
-import org.springframework.data.neo4j.core.schema.GeneratedValue;
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
 import org.springframework.data.neo4j.core.schema.Relationship;
@@ -35,7 +34,6 @@ public class Persona {
     // ─── Identificación ────────────────────────────────────────────────────────
 
     @Id
-    @GeneratedValue(generatorClass = GeneratedValue.UUIDGenerator.class)
     private String id;
 
     private String nombre;

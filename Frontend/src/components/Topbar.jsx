@@ -2,11 +2,16 @@ import { useState, useCallback } from 'react';
 import { Search, X } from 'lucide-react';
 import apiClient from '../services/apiClient';
 import Spinner from './ui/Spinner';
+import AccountSearchModal from './AccountSearchModal';
 
 export default function Topbar({ onSearchResult }) {
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [modalAccount, setModalAccount] = useState(null);
+  const [modalError, setModalError] = useState(false);
 
   const handleSearch = useCallback(async () => {
     if (!query.trim()) return;
@@ -41,9 +46,11 @@ export default function Topbar({ onSearchResult }) {
           results.dispositivos = dispRes.value.data.filter((d) => d.ipAddress === query.trim());
         }
       } else {
-        const [personasRes] = await Promise.allSettled([
+        const [personasRes, cuentaBusqueda] = await Promise.allSettled([
           apiClient.get('/personas'),
+          apiClient.get('/cuentas/buscar', { params: { q: query.trim() } }),
         ]);
+
         if (personasRes.status === 'fulfilled') {
           results.personas = personasRes.value.data.filter(
             (p) =>
@@ -52,10 +59,20 @@ export default function Topbar({ onSearchResult }) {
               p.email?.toLowerCase().includes(query.trim().toLowerCase())
           );
         }
+
+        if (cuentaBusqueda.status === 'fulfilled') {
+          setModalAccount(cuentaBusqueda.value.data);
+          setModalError(false);
+          setModalOpen(true);
+        } else if (cuentaBusqueda.status === 'rejected' && cuentaBusqueda.reason?.response?.status === 404) {
+          setModalAccount(null);
+          setModalError(true);
+          setModalOpen(true);
+        }
       }
 
       onSearchResult?.(results);
-    } catch (err) {
+    } catch {
       setError('Error al buscar. Intentá nuevamente.');
     } finally {
       setLoading(false);
@@ -67,33 +84,42 @@ export default function Topbar({ onSearchResult }) {
   };
 
   return (
-    <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-sm border-b border-slate-200 px-6 py-3">
-      <div className="flex items-center gap-4 max-w-4xl mx-auto">
-        <div className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
-          <input
-            type="text"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder="Buscar por nombre, DNI, IP, cuenta o fingerprint..."
-            className="w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
-          />
-          {query && (
-            <button
-              onClick={() => {
-                setQuery('');
-                onSearchResult?.(null);
-              }}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
-            >
-              <X className="h-4 w-4" />
-            </button>
-          )}
+    <>
+      <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-sm border-b border-slate-200 px-6 py-3">
+        <div className="flex items-center gap-4 max-w-4xl mx-auto">
+          <div className="relative flex-1">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+            <input
+              type="text"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder="Buscar por nombre, DNI, IP, alias de cuenta o fingerprint..."
+              className="w-full pl-10 pr-10 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
+            />
+            {query && (
+              <button
+                onClick={() => {
+                  setQuery('');
+                  onSearchResult?.(null);
+                }}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            )}
+          </div>
+          {loading && <Spinner size="sm" />}
+          {error && <span className="text-xs text-danger-600">{error}</span>}
         </div>
-        {loading && <Spinner size="sm" />}
-        {error && <span className="text-xs text-danger-600">{error}</span>}
-      </div>
-    </header>
+      </header>
+
+      <AccountSearchModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        account={modalAccount}
+        error={modalError}
+      />
+    </>
   );
 }

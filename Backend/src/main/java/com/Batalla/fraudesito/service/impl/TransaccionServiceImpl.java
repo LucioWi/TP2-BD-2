@@ -61,6 +61,7 @@ public class TransaccionServiceImpl implements TransaccionService {
         String motivoAlerta = esAlertada ? buildMotivoAlerta(dto) : null;
 
         Transaccion transaccion = Transaccion.builder()
+                .id(java.util.UUID.randomUUID().toString())
                 .numeroOrden(generarNumeroOrden())
                 .monto(dto.getMonto())
                 .moneda(dto.getMoneda())
@@ -82,6 +83,18 @@ public class TransaccionServiceImpl implements TransaccionService {
                 .build();
 
         Transaccion guardada = transaccionRepository.save(transaccion);
+
+        cuentaRepository.crearTransferencia(
+                cuentaOrigen.getId(),
+                cuentaDestino.getId(),
+                guardada.getId(),
+                dto.getMonto(),
+                dto.getMoneda(),
+                dto.getCanal().name(),
+                dto.getDescripcion() != null ? dto.getDescripcion() : "",
+                LocalDateTime.now().toString(),
+                EstadoTransaccion.PENDIENTE.name()
+        );
         if (esAlertada) {
             log.warn("Transacción {} alertada — riesgo: {} — motivo: {}", guardada.getId(), nivelRiesgo, motivoAlerta);
         }

@@ -6,7 +6,7 @@ import Badge from '../../components/ui/Badge';
 import apiClient from '../../services/apiClient';
 
 const TIPOS_TX = ['TRANSFERENCIA', 'DEPOSITO', 'RETIRO', 'PAGO'];
-const CANALES = ['APP_MOVIL', 'HOME_BANKING', 'CAJERO', 'SUCURSAL'];
+const CANALES = ['APP_MOVIL', 'HOME_BANKING', 'ATM', 'SUCURSAL'];
 const ESTADOS = ['COMPLETADA', 'PENDIENTE', 'RECHAZADA'];
 
 export default function SimulatorForm({ onSuccess }) {
@@ -43,11 +43,12 @@ export default function SimulatorForm({ onSuccess }) {
       const payload = {
         cuentaOrigenId: form.cuentaOrigenId,
         cuentaDestinoId: form.cuentaDestinoId,
-        monto: form.monto,
+        monto: String(form.monto),
         moneda: 'ARS',
         tipo: form.tipo,
         canal: form.canal,
         descripcion: form.descripcion || 'Transacción simulada desde el SOC',
+        concepto: 'VARIOS',
       };
 
       const res = await apiClient.post('/transacciones', payload);

@@ -169,6 +169,22 @@ public class CuentaController {
 
     // ─── Búsquedas ─────────────────────────────────────────────────────────────
 
+    @GetMapping("/buscar")
+    @Operation(
+        summary = "Buscar cuenta por alias o número",
+        description = "Busca una cuenta cuyo alias o numeroCuenta coincida exactamente con el parámetro 'q'."
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Cuenta encontrada",
+            content = @Content(schema = @Schema(implementation = CuentaResponseDto.class))),
+        @ApiResponse(responseCode = "404", description = "Cuenta no encontrada con ese criterio")
+    })
+    public ResponseEntity<CuentaResponseDto> buscarPorAliasONumeroCuenta(
+            @Parameter(description = "Alias o número de cuenta a buscar", example = "PATO.VERDE.SOL")
+            @RequestParam("q") String q) {
+        return ResponseEntity.ok(cuentaService.buscarPorAliasONumeroCuenta(q));
+    }
+
     @GetMapping("/persona/{personaId}")
     @Operation(
         summary = "Cuentas de una persona",

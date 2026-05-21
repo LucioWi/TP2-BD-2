@@ -56,6 +56,7 @@ public class PersonaServiceImpl implements PersonaService {
         }
 
         Persona persona = Persona.builder()
+                .id(java.util.UUID.randomUUID().toString())
                 .nombre(dto.getNombre())
                 .apellido(dto.getApellido())
                 .tipoDocumento(dto.getTipoDocumento())

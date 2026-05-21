@@ -36,6 +36,7 @@ public class DispositivoServiceImpl implements DispositivoService {
         }
 
         Dispositivo dispositivo = Dispositivo.builder()
+                .id(java.util.UUID.randomUUID().toString())
                 .tipoDispositivo(dto.getTipoDispositivo())
                 .sistemaOperativo(dto.getSistemaOperativo())
                 .userAgent(dto.getUserAgent())

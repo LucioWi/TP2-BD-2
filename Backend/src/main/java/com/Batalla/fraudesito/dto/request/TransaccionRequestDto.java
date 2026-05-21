@@ -3,11 +3,15 @@ package com.batalla.fraudesito.dto.request;
 import com.batalla.fraudesito.domain.enums.CanalTransaccion;
 import com.batalla.fraudesito.domain.enums.TipoTransaccion;
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class TransaccionRequestDto {
 
     @NotBlank(message = "El monto es obligatorio")

@@ -19,6 +19,7 @@ public interface CuentaService {
     void eliminar(String id);
 
     // ─── Búsquedas ─────────────────────────────────────────────────────────────
+    CuentaResponseDto buscarPorAliasONumeroCuenta(String criterio);
     List<CuentaResponseDto> buscarPorPersona(String personaId);
 
     // ─── Fraude ────────────────────────────────────────────────────────────────

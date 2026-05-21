@@ -50,6 +50,7 @@ public class CuentaServiceImpl implements CuentaService {
         }
 
         Cuenta cuenta = Cuenta.builder()
+                .id(java.util.UUID.randomUUID().toString())
                 .numeroCuenta(dto.getNumeroCuenta())
                 .cbvu(dto.getCbvu())
                 .alias(dto.getAlias())
@@ -114,6 +115,12 @@ public class CuentaServiceImpl implements CuentaService {
         }
         cuenta.setMoneda(dto.getMoneda());
         cuenta.setLimiteTransferenciaDiaria(dto.getLimiteTransferenciaDiaria());
+        if (dto.getEstado() != null) {
+            cuenta.setEstado(dto.getEstado());
+            if (dto.getEstado() == EstadoCuenta.BLOQUEADA) {
+                cuenta.setMotivoBloqueo("Bloqueo manual desde consola SOC");
+            }
+        }
         cuenta.setFechaActualizacion(LocalDateTime.now());
 
         return cuentaMapper.toDto(cuentaRepository.save(cuenta));
@@ -128,6 +135,14 @@ public class CuentaServiceImpl implements CuentaService {
     }
 
     // ─── Búsquedas ─────────────────────────────────────────────────────────────
+
+    @Override
+    @Transactional(readOnly = true)
+    public CuentaResponseDto buscarPorAliasONumeroCuenta(String criterio) {
+        return cuentaRepository.buscarPorAliasONumeroCuenta(criterio)
+                .map(cuentaMapper::toDto)
+                .orElseThrow(() -> new ResourceNotFoundException("Cuenta", "alias/numeroCuenta", criterio));
+    }
 
     @Override
     @Transactional(readOnly = true)

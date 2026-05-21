@@ -1,12 +1,17 @@
 package com.batalla.fraudesito.dto.request;
 
+import com.batalla.fraudesito.domain.enums.EstadoCuenta;
 import com.batalla.fraudesito.domain.enums.TipoCuenta;
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class CuentaRequestDto {
 
     @NotBlank(message = "El número de cuenta es obligatorio")
@@ -34,4 +39,6 @@ public class CuentaRequestDto {
 
     @Pattern(regexp = "^\\d+(\\.\\d{1,2})?$", message = "El límite debe ser un número válido con máximo 2 decimales")
     private String limiteTransferenciaDiaria;
+
+    private EstadoCuenta estado;
 }

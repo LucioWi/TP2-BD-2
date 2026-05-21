@@ -38,6 +38,13 @@ public interface CuentaRepository extends Neo4jRepository<Cuenta, String> {
 
     List<Cuenta> findByMoneda(String moneda);
 
+    @Query("""
+            MATCH (c:Cuenta)
+            WHERE c.alias = $criterio OR c.numeroCuenta = $criterio
+            RETURN c
+            """)
+    Optional<Cuenta> buscarPorAliasONumeroCuenta(@Param("criterio") String criterio);
+
     // ─── Búsqueda por titular y dispositivo ─────────────────────────────────────
 
     @Query("""
@@ -259,4 +266,28 @@ public interface CuentaRepository extends Neo4jRepository<Cuenta, String> {
             ORDER BY hub.id
             """)
     List<CuentaSelectDto> findCuentasDestinoHubs();
+
+    @Query("""
+            MATCH (origen:Cuenta {id: $origenId}), (destino:Cuenta {id: $destinoId})
+            CREATE (origen)-[r:TRANSFIERE_A {
+                transaccionId: $transaccionId,
+                monto: $monto,
+                moneda: $moneda,
+                canal: $canal,
+                descripcion: $descripcion,
+                fecha: localdatetime($fecha),
+                estado: $estado
+            }]->(destino)
+            RETURN r
+            """)
+    void crearTransferencia(
+            @Param("origenId") String origenId,
+            @Param("destinoId") String destinoId,
+            @Param("transaccionId") String transaccionId,
+            @Param("monto") String monto,
+            @Param("moneda") String moneda,
+            @Param("canal") String canal,
+            @Param("descripcion") String descripcion,
+            @Param("fecha") String fecha,
+            @Param("estado") String estado);
 }
